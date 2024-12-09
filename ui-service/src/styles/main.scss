@@ -1,0 +1,80 @@
+.flex-column-justify-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.flex-row-justify-between {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.flex-row-justify-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.flex-justify-center {
+  display: flex;
+  justify-content: center;
+}
+.p-10 {
+  padding: 10px;
+}
+.ph-10 {
+  padding: 0 10px;
+}
+.pv-10 {
+  padding: 10px 0;
+}
+.m-10 {
+  margin: 10px;
+}
+.mh-10 {
+  margin: 0 10px;
+}
+.mv-10 {
+  margin: 10px 0;
+}
+.flex-49 {
+  flex-basis: 49%;
+}
+.min-width-70 {
+  min-width: 70px;
+}
+.min-width-200 {
+  min-width: 200px;
+}
+.MuiDataGrid-root.MuiDataGrid-withBorderColor {
+  border: 1px solid #b8c2cc;
+  .MuiDataGrid-main {
+    border: 1px solid #b8c2cc;
+    .MuiDataGrid-columnHeader.MuiDataGrid-withBorderColor {
+      color: #6e6b7b;
+      text-transform: uppercase;
+      background-color: #ebe9f1;
+      font-size: 0.857rem;
+      letter-spacing: 0.5px;
+      border-color: #b8c2cc;
+      .MuiDataGrid-columnHeaderTitle {
+        font-weight: bold;
+      }
+      .MuiDataGrid-cell.MuiDataGrid-withBorderColor {
+        border-color: #b8c2cc;
+      }
+    }
+    .MuiDataGrid-cell--editing {
+      display: flex;
+      align-items: stretch;
+      .MuiBox-root {
+        display: flex;
+      }
+      .grid-custom-input {
+        width: 100%;
+      }
+    }
+  }
+  .MuiDataGrid-toolbarContainer {
+    background-color: #ebe9f1;
+  }
+}

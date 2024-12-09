@@ -1,0 +1,1063 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="gunjan" id="1_adding_all_tables">
+        <createTable tableName="account_summary" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__account_summary"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="account_number" type="varchar(255)"/>
+            <column computed="false" name="account_type" type="varchar(255)"/>
+            <column computed="false" name="fcu_score" type="varchar(255)"/>
+            <column computed="false" name="full_month_count" type="int"/>
+            <column computed="false" name="institution_name" type="varchar(255)"/>
+            <column computed="false" name="customer_info_id" type="bigint"/>
+            <column name="custom_debit_loan_receipts" type="numeric(38, 2)"/>
+        </createTable>
+        <createTable tableName="combined_monthly_details" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__combined_monthly_details"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="month_name" type="varchar(255)"/>
+            <column computed="false" name="start_date" type="date"/>
+            <column computed="false" name="customer_info_id" type="bigint"/>
+        </createTable>
+        <createTable tableName="customer_info" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__customer_info"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="address" type="text"/>
+            <column computed="false" name="bank_name" type="varchar(255)"/>
+            <column computed="false" name="customer_transaction_id" type="varchar(255)"/>
+            <column computed="false" name="email" type="varchar(255)"/>
+            <column computed="false" name="inst_id" type="bigint"/>
+            <column computed="false" name="landline" type="varchar(255)"/>
+            <column computed="false" name="mobile_number" type="varchar(255)"/>
+            <column computed="false" name="name" type="varchar(255)"/>
+            <column computed="false" name="pan" type="varchar(255)"/>
+            <column computed="false" name="perfios_transaction_id" type="varchar(255)"/>
+            <column computed="false" name="status" type="varchar(255)"/>
+            <column name="mas_financial_id" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="eod_balances" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__eod_balances"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="date" type="date"/>
+            <column computed="false" name="eod_balance" type="numeric(38, 2)"/>
+            <column computed="false" name="account_summary_id" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="fcu_indicators" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__fcu_indicators"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="count" type="bigint"/>
+            <column computed="false" name="status" type="varchar(255)"/>
+            <column computed="false" name="account_summary_id" type="bigint"/>
+            <column computed="false" name="fcu_indicators_description_id" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__fcu_indicators_description"/>
+            </column>
+            <column computed="false" name="description" type="text"/>
+            <column computed="false" name="indicator_sub_type" type="varchar(255)"/>
+            <column computed="false" name="indicator_type" type="varchar(255)"/>
+            <column computed="false" name="name" type="text"/>
+        </createTable>
+
+        <createTable tableName="fcu_indicators_details" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__fcu_indicators_details"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="amount" type="numeric(38, 2)"/>
+            <column computed="false" name="balance" type="numeric(38, 2)"/>
+            <column computed="false" name="category" type="text"/>
+            <column computed="false" name="chq_no" type="varchar(255)"/>
+            <column computed="false" name="date" type="date"/>
+            <column computed="false" name="group_no" type="int"/>
+            <column computed="false" name="mode" type="varchar(255)"/>
+            <column computed="false" name="month" type="varchar(255)"/>
+            <column computed="false" name="narration" type="text"/>
+            <column computed="false" name="party_name" type="varchar(255)"/>
+            <column computed="false" name="fcu_indicator_id" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="monthwise_details" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__monthwise_details"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="atm_withdrawals" type="numeric(38, 2)"/>
+            <column computed="false" name="avg_eod_balance" type="numeric(38, 2)"/>
+            <column computed="false" name="last_balance" type="numeric(38, 2)"/>
+            <column computed="false" name="max_eod_balance" type="numeric(38, 2)"/>
+            <column computed="false" name="min_eod_balance" type="numeric(38, 2)"/>
+            <column computed="false" name="month" type="date"/>
+            <column computed="false" name="start_date" type="date"/>
+            <column computed="false" name="total_amount_of_cash_deposits" type="numeric(38, 2)"/>
+            <column computed="false" name="total_amount_of_cash_withdrawals" type="numeric(38, 2)"/>
+            <column computed="false" name="total_amount_of_cheque_deposits" type="numeric(38, 2)"/>
+            <column computed="false" name="total_amount_of_cheque_issues" type="numeric(38, 2)"/>
+            <column computed="false" name="total_amount_of_credit_transactions" type="numeric(38, 2)"/>
+            <column computed="false" name="total_amount_of_debit_transactions" type="numeric(38, 2)"/>
+            <column computed="false" name="total_amount_of_salaries" type="numeric(38, 2)"/>
+            <column computed="false" name="total_no_of_cash_deposits" type="bigint"/>
+            <column computed="false" name="total_no_of_cash_withdrawals" type="bigint"/>
+            <column computed="false" name="total_no_of_cheque_deposits" type="bigint"/>
+            <column computed="false" name="total_no_of_cheque_issues" type="bigint"/>
+            <column computed="false" name="total_no_of_credit_transactions" type="bigint"/>
+            <column computed="false" name="total_no_of_debit_transactions" type="bigint"/>
+            <column computed="false" name="total_no_of_inward_cheque_bounces" type="bigint"/>
+            <column computed="false" name="total_no_of_outward_cheque_bounces" type="bigint"/>
+            <column computed="false" name="total_no_of_salaries" type="bigint"/>
+            <column computed="false" name="transactions_count" type="bigint"/>
+            <column computed="false" name="type" type="varchar(255)"/>
+            <column computed="false" name="account_summary_id" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="statement_accounts" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__statement_accounts"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="account_number" type="varchar(255)"/>
+            <column computed="false" name="account_type" type="varchar(255)"/>
+            <column computed="false" name="end_transaction_date" type="date"/>
+            <column computed="false" name="start_transaction_date" type="date"/>
+            <column computed="false" name="statement_considered_id" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="statements_considered" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__statements_considered"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="address" type="text"/>
+            <column computed="false" name="email" type="varchar(255)"/>
+            <column computed="false" name="file_name" type="varchar(255)"/>
+            <column computed="false" name="institution" type="varchar(255)"/>
+            <column computed="false" name="landline" type="varchar(255)"/>
+            <column computed="false" name="mobile" type="varchar(255)"/>
+            <column computed="false" name="name_in_statement" type="varchar(255)"/>
+            <column computed="false" name="pan_no" type="varchar(255)"/>
+            <column computed="false" name="password_protected" type="bit"/>
+            <column computed="false" name="statement_status" type="varchar(255)"/>
+            <column computed="false" name="customer_info_id" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="top_five_funds" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__top_five_funds"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="amount" type="numeric(38, 2)"/>
+            <column computed="false" name="description" type="varchar(255)"/>
+            <column computed="false" name="month_year" type="date"/>
+            <column computed="false" name="type" type="varchar(255)"/>
+            <column computed="false" name="account_summary_id" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="transaction_call_back_temp" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__transaction_call_back_temp"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="json_data" type="text"/>
+        </createTable>
+
+        <createTable tableName="transactions" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__transactions"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="amount" type="numeric(38, 2)"/>
+            <column computed="false" name="balance" type="numeric(38, 2)"/>
+            <column computed="false" name="category" type="text"/>
+            <column computed="false" name="cheque_no" type="bigint"/>
+            <column computed="false" name="date" type="date"/>
+            <column computed="false" name="description" type="text"/>
+            <column computed="false" name="account_summary_id" type="bigint"/>
+        </createTable>
+
+        <createIndex indexName="UK_indicator_sub_type" tableName="fcu_indicators_description"
+                     schemaName="mas_datastore_perfios" unique="true">
+            <column name="indicator_sub_type"/>
+        </createIndex>
+        <createIndex indexName="UK_perfios_transaction_id" tableName="customer_info" schemaName="mas_datastore_perfios"
+                     unique="true">
+            <column name="perfios_transaction_id"/>
+        </createIndex>
+        <createIndex indexName="UK_customer_transaction_id" tableName="customer_info" schemaName="mas_datastore_perfios"
+                     unique="true">
+            <column name="customer_transaction_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="account_summary_id" baseTableName="fcu_indicators"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_fcu_indicators_account_summary_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="true"
+                                 referencedColumnNames="id" referencedTableName="account_summary"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="account_summary_id" baseTableName="monthwise_details"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_monthwise_details_account_summary_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="true"
+                                 referencedColumnNames="id" referencedTableName="account_summary"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="fcu_indicators_description_id" baseTableName="fcu_indicators"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_fcu_indicators_fcu_indicators_description_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="true"
+                                 referencedColumnNames="id" referencedTableName="fcu_indicators_description"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="customer_info_id" baseTableName="account_summary"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_account_summary_customer_info_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="true"
+                                 referencedColumnNames="id" referencedTableName="customer_info"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="customer_info_id" baseTableName="combined_monthly_details"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_combined_monthly_details_customer_info_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="true"
+                                 referencedColumnNames="id" referencedTableName="customer_info"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="account_summary_id" baseTableName="top_five_funds"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_top_five_funds_account_summary_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="true"
+                                 referencedColumnNames="id" referencedTableName="account_summary"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="account_summary_id" baseTableName="transactions"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_transactions_account_summary_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="true"
+                                 referencedColumnNames="id" referencedTableName="account_summary"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="fcu_indicator_id" baseTableName="fcu_indicators_details"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_fcu_indicators_details_fcu_indicator_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="true"
+                                 referencedColumnNames="id" referencedTableName="fcu_indicators"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="account_summary_id" baseTableName="eod_balances"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_eod_balances_account_summary_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="true"
+                                 referencedColumnNames="id" referencedTableName="account_summary"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="statement_considered_id" baseTableName="statement_accounts"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_statement_accounts_statement_considered_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="true"
+                                 referencedColumnNames="id" referencedTableName="statements_considered"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="customer_info_id" baseTableName="statements_considered"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_statements_considered_customer_info_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="true"
+                                 referencedColumnNames="id" referencedTableName="customer_info"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+
+        <createTable tableName="monthwise_custom_fields" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__monthwise_custom_fields"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="custom_cc_utilization_percentage" type="numeric(18,4)"/>
+            <column computed="false" name="monthwise_detail_id" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="account_summary_custom_fields" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__account_summary_custom_fields"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="custom_credit_loan_receipts" type="numeric(38, 2)"/>
+            <column computed="false" name="custom_debit_loan_receipts" type="numeric(38, 2)"/>
+            <column computed="false" name="account_summary_id" type="bigint"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="monthwise_detail_id" baseTableName="monthwise_custom_fields"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_monthwise_custom_fields_monthwise_detail_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="true"
+                                 referencedColumnNames="id" referencedTableName="monthwise_details"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+
+        <addForeignKeyConstraint baseColumnNames="account_summary_id" baseTableName="account_summary_custom_fields"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_account_summary_custom_fields_account_summary_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="true"
+                                 referencedColumnNames="id" referencedTableName="account_summary"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+
+        <createTable tableName="master_identifiers" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__master_identifiers"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="identifier_type" type="varchar(255)"/>
+            <column computed="false" name="identifier_name" type="varchar(255)"/>
+            <column computed="false" name="identification_value" type="text"/>
+            <column computed="false" name="debit_or_credit" type="varchar(255)"/>
+            <column computed="false" name="deletable" defaultValueBoolean="true" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createIndex indexName="UK_identifier_name" tableName="master_identifiers"
+                     schemaName="mas_datastore_perfios" unique="true">
+            <column name="identifier_name"/>
+            <column name="identifier_type"/>
+        </createIndex>
+
+        <createTable tableName="master_rule" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__master_rule"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="identification_value" type="text"/>
+            <column computed="false" name="debit_or_credit" type="varchar(255)"/>
+            <column computed="false" name="transaction_flag" type="varchar(255)"/>
+            <column computed="false" name="rule_query" type="text"/>
+            <column computed="false" name="deletable" type="BOOLEAN"/>
+            <column name="completed" defaultValueBoolean="false" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createIndex indexName="UK_transaction_flag" tableName="master_rule"
+                     schemaName="mas_datastore_perfios" unique="true">
+            <column name="transaction_flag"/>
+        </createIndex>
+
+        <createTable tableName="master_rule_transaction_type_identifiers" schemaName="mas_datastore_perfios">
+                <column name="transaction_type_id" type="bigint">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="rule_id" type="bigint">
+                    <constraints nullable="false"/>
+                </column>
+        </createTable>
+
+        <addPrimaryKey schemaName="mas_datastore_perfios" tableName="master_rule_transaction_type_identifiers" columnNames="transaction_type_id,rule_id" constraintName="PK__master_rule_transaction_type_identifiers"/>
+
+        <createTable tableName="master_rule_category_identifiers" schemaName="mas_datastore_perfios">
+            <column name="category_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rule_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey schemaName="mas_datastore_perfios" tableName="master_rule_category_identifiers" columnNames="category_id,rule_id" constraintName="PK__master_rule_category_identifiers"/>
+
+        <createTable tableName="master_rule_parties_merchant_identifiers" schemaName="mas_datastore_perfios">
+            <column name="parties_merchant_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rule_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey schemaName="mas_datastore_perfios" tableName="master_rule_parties_merchant_identifiers" columnNames="parties_merchant_id ,rule_id" constraintName="PK__master_rule_parties_merchant_identifiers"/>
+
+
+        <addForeignKeyConstraint baseColumnNames="transaction_type_id" baseTableName="master_rule_transaction_type_identifiers"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_master_rule_transaction_type_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="false"
+                                 referencedColumnNames="id" referencedTableName="master_identifiers"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+
+        <addForeignKeyConstraint baseColumnNames="category_id" baseTableName="master_rule_category_identifiers"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_master_rule_category_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="false"
+                                 referencedColumnNames="id" referencedTableName="master_identifiers"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+
+        <addForeignKeyConstraint baseColumnNames="parties_merchant_id" baseTableName="master_rule_parties_merchant_identifiers"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_master_rule_parties_merchant_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="false"
+                                 referencedColumnNames="id" referencedTableName="master_identifiers"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+
+        <addForeignKeyConstraint baseColumnNames="rule_id" baseTableName="master_rule_transaction_type_identifiers"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_master_transaction_identifiers_rule_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="false"
+                                 referencedColumnNames="id" referencedTableName="master_rule"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+
+        <addForeignKeyConstraint baseColumnNames="rule_id" baseTableName="master_rule_category_identifiers"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_master_category_identifiers_rule_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="false"
+                                 referencedColumnNames="id" referencedTableName="master_rule"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+
+        <addForeignKeyConstraint baseColumnNames="rule_id" baseTableName="master_rule_parties_merchant_identifiers"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_master_parties_merchant_identifiers_rule_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="false"
+                                 referencedColumnNames="id" referencedTableName="master_rule"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+
+        <createTable tableName="derived_transactions" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__derived_transactions"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="account_summary_id" type="bigint"/>
+            <column computed="false" name="amount" type="numeric(38, 2)"/>
+            <column computed="false" name="balance" type="numeric(38, 2)"/>
+            <column computed="false" name="category" type="text"/>
+            <column computed="false" name="cheque_no" type="bigint"/>
+            <column computed="false" name="date" type="date"/>
+            <column computed="false" name="description" type="text"/>
+            <column computed="false" name="type" type="varchar(255)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="account_summary_id" baseTableName="derived_transactions"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_derived_transactions_account_summary_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="true"
+                                 referencedColumnNames="id" referencedTableName="account_summary"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+
+        <createTable tableName="mas_requests" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__mas_requests"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="status" type="varchar(255)"/>
+            <column computed="false" name="mas_financial_id" type="varchar(255)"/>
+            <column computed="false" name="customer_transaction_id" type="varchar(255)"/>
+            <column computed="false" name="perfios_transaction_id" type="varchar(255)"/>
+            <column computed="false" name="transaction_complete_callback_url" type="varchar(255)"/>
+            <column computed="false" name="error_message" type="text"/>
+            <column computed="false" name="customer_info_id" type="bigint"/>
+            <column computed="false" name="created_by" type="varchar(255)"/>
+            <column computed="false" name="ip_address" type="varchar(255)"/>
+            <column computed="false" name="mas_webhook_failed_error" type="text"/>
+            <column computed="false" name="error_json_string" type="text"/>
+            <column computed="false" name="report_fetched" defaultValueBoolean="false" type="BOOLEAN" >
+                <constraints nullable="false" />
+            </column>
+            <column computed="false" name="mas_webhook_status" type="varchar(255)"/>
+            <column computed="false" name="perfios_status" type="varchar(255)"/>
+            <column computed="false" name="perfios_error_message" type="varchar(255)"/>
+            <column computed="false" name="perfios_error_code" type="varchar(255)" />
+            <column computed="false" name="report_expired" defaultValueBoolean="false" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="credit_limit" type="numeric(18, 2)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="customer_info_id" baseTableName="mas_requests"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_mas_requests_customer_info_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="true"
+                                 referencedColumnNames="id" referencedTableName="customer_info"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+
+        <createTable tableName="transactions_custom_fields" schemaName="mas_datastore_perfios">
+            <column autoIncrement="true" computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__transactions_custom_fields"/>
+            </column>
+            <column computed="false" name="uuid" type="uniqueidentifier"/>
+            <column computed="false" name="created_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="updated_on" type="datetimeoffset(6)"/>
+            <column computed="false" name="comment" type="text"/>
+            <column computed="false" name="transactions_id" type="bigint"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="transactions_id" baseTableName="transactions_custom_fields"
+                                 baseTableSchemaName="mas_datastore_perfios" constraintName="FK_transactions_custom_fields_transactions_id"
+                                 deferrable="false" initiallyDeferred="false" deleteCascade="true"
+                                 referencedColumnNames="id" referencedTableName="transactions"
+                                 referencedTableSchemaName="mas_datastore_perfios" validate="true"/>
+    </changeSet>
+
+    <!-- Inserting Rows in fcu_indicators_description -->
+    <changeSet id="2_inserting_data" author="gunjan">
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Suspicious bank eStatement"/>
+            <column name="description"
+                    value="Suspicious bank eStatements are those statements having a Statement Status of 'FRAUD' OR 'REFER'."/>
+            <column name="indicator_sub_type" value="SuspiciousBankEStatements"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Account Holder Name Verification"/>
+            <column name="description"
+                    value="Verifies whether the name provided by the bank matches the name stated in the bank account statement."/>
+            <column name="indicator_sub_type" value="AccountHolderNameVerification"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Equal Credit Debit"/>
+            <column name="description"
+                    value="Total amount of credit is exactly same as the total amount of debit, or total number of credit transactions is exactly same as the total number of debit transactions - both scenarios are extremely unlikely."/>
+            <column name="indicator_sub_type" value="EqualCreditDebitXns"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Irregular Interest Charges"/>
+            <column name="description"
+                    value="Interest Charges which are not in all months within a narrow date range."/>
+            <column name="indicator_sub_type" value="IrregularInterestDebitXns"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Salary Credit Amount remains unchanged over extended period"/>
+            <column name="description"
+                    value="Salary amount usually changes over time, particularly during the tail-end of financial year, due to change of TDS amount."/>
+            <column name="indicator_sub_type" value="SalaryAmountNotVaryingXns"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Amount-Balance Mismatches"/>
+            <column name="description"
+                    value="Transactions whose amount/balance do not match with previous transactions. Perfios might have added Dummy fillers for identification. And, for reports generated through non-online mode, an intermediate excel file is generated when there is running balance mismatch. This trigger notifies that there was manual intervention in adding/ deleting/ editing the transactions to generate report"/>
+            <column name="indicator_sub_type" value="AmountBalanceMismatchXns"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Cash deposit on bank holidays"/>
+            <column name="description" value="Cash Deposit transactions happening on holidays"/>
+            <column name="indicator_sub_type" value="CashDepositOnHolidayXns"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Suspicious RTGS Transactions"/>
+            <column name="description" value="RTGS transactions have a minimum amount limit as prescribed by RBI."/>
+            <column name="indicator_sub_type" value="SuspiciousRTGSXns"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Suspicious ATM Withdrawals"/>
+            <column name="description"
+                    value="ATM Withdrawals having amount not being multiple of 100, or outside the permissible range."/>
+            <column name="indicator_sub_type" value="SuspiciousATMXns"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Negative EOD Balance"/>
+            <column name="description"
+                    value="End of day bank balance on any day in an Savings account is unlikely to be negative."/>
+            <column name="indicator_sub_type" value="NegativeEODBalanceXns"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Transactions on Bank holidays"/>
+            <column name="description" value="Cheque deposit transactions cannot happen on Bank holidays"/>
+            <column name="indicator_sub_type" value="ChqDepositOnHolidayXns"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Credit Interest not reflecting"/>
+            <column name="description" value="Interest credit transactions not reflecting in the account"/>
+            <column name="indicator_sub_type" value="CreditInterestNotReflecting"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Chq Withdrawal On Holiday"/>
+            <column name="description" value="Cheque Withdrawals done on holiday"/>
+            <column name="indicator_sub_type" value="ChqWithdrawalOnHolidayXns"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Imps Transactions Above Threshold"/>
+            <column name="description" value="Imps Debits whose cumulative sum on a day exceeds threshold value"/>
+            <column name="indicator_sub_type" value="ImpsAboveThresholdXns"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Majority of transactions in round figures"/>
+            <column name="description"
+                    value="Triggered if 70% of total debit and credit transactions is in round figures"/>
+            <column name="indicator_sub_type" value="MajorityRoundFigureXns"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Upi Transactions Above Threshold"/>
+            <column name="description" value="Upi Debits whose cumulative sum on a day exceeds threshold value"/>
+            <column name="indicator_sub_type" value="UpiAboveThresholdXns"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+
+        <!--BTI-->
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Account with Low vintage"/>
+            <column name="description"
+                    value="Account opening date is available/ fetched and account opening date is less than a year from the generated date of this report."/>
+            <column name="indicator_sub_type" value="LowAccountVintage"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Only cash transactions"/>
+            <column name="description" value="Maximum transactions involving cash deposit or withdrawals"/>
+            <column name="indicator_sub_type" value="MoreCashXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Round figure Tax Payments"/>
+            <column name="description"
+                    value="Tax paid amounts are usually not round figures, such as multiple of 100."/>
+            <column name="indicator_sub_type" value="TaxPaymentXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Cheque number in series"/>
+            <column name="description" value="Cheque number should not be in series"/>
+            <column name="indicator_sub_type" value="ChequeNumberInSeriesXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Credit followed only by cash withdrawal"/>
+            <column name="description"
+                    value="Cumulative Credits in a day through cheque/NEFT/RTGS/Cash deposit followed by only cash withdrawals"/>
+            <column name="indicator_sub_type" value="CashWithdrawalAfterCreditXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="EMI Cheque Bounce"/>
+            <column name="description" value="Consecutive EMI Cheque bounce observed for the period"/>
+            <column name="indicator_sub_type" value="ConsecutiveEMIChequeBounces"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Irregular EMI Transaction"/>
+            <column name="description"
+                    value="EMI/ECS type transactions which did not happen on Same day of every Month."/>
+            <column name="indicator_sub_type" value="IrregularEmiEcsXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Only ATM debits seen in any of the last three months"/>
+            <column name="description"
+                    value="Any of the last three completed months should not have only ATM debits irrespective of the type of credit transactions."/>
+            <column name="indicator_sub_type" value="OnlyAtmDebitsInAnyOfLastThreeMonths"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="ATM Cash withdrawal"/>
+            <column name="description" value="ATM withdrawals with cheque number or mode of payment is NEFT/RTGS"/>
+            <column name="indicator_sub_type" value="ATMWithChqNoXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Huge Balances"/>
+            <column name="description"
+                    value="Huge Balances greater than specified amount threshold for durations greater than the specified time period"/>
+            <column name="indicator_sub_type" value="HugeBalances"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Low Transactions"/>
+            <column name="description" value="Month for which total number of transactions are less than 5."/>
+            <column name="indicator_sub_type" value="LowXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="No Transactions in the Expected Range"/>
+            <column name="description" value="Months for which there are no transactions before 5th and after 20th."/>
+            <column name="indicator_sub_type" value="NoXnMonths"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Immediate cash withdrawals after cash deposit"/>
+            <column name="description" value="Withdrawal of huge % of cash deposited within less amount of time"/>
+            <column name="indicator_sub_type" value="CashWithdrawalAfterCashDepositXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Interest Credit Transactions"/>
+            <column name="description"
+                    value="Take a look at all Interest credit transactions. They should be periodic. Savings account interest payments should be monthly."/>
+            <column name="indicator_sub_type" value="InterestCreditXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Debit EOD Balances"/>
+            <column name="description"
+                    value="Savings or Current Account shows debit balance i.e, negative EOD balance"/>
+            <column name="indicator_sub_type" value="DebitEODBalanceXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Salary Xns With Same Narration"/>
+            <column name="description" value="Salary transactions with identical narrations"/>
+            <column name="indicator_sub_type" value="SalaryWithSameNarrationXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Suspicious mode of salary"/>
+            <column name="description" value="Salary txns with mode of payment as IMPS, MPAY, UPI or cheque"/>
+            <column name="indicator_sub_type" value="SalaryThroughIMPSOrMPAYOrCHQ"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Salary through IMPS/ UPI"/>
+            <column name="description" value="Identifies salary credits done through IMPS or UPI."/>
+            <column name="indicator_sub_type" value="SalaryThroughIMPSOrUPI"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Suspicious Salary Credits"/>
+            <column name="description"
+                    value="Higher number or amount of cash deposits than salary is an unlikely scenario."/>
+            <column name="indicator_sub_type" value="SalaryOnHolidayXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Suspicious salary  debits"/>
+            <column name="description" value=""/>
+            <column name="indicator_sub_type" value="SuspiciousSalaryDebitXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="More and frequent Cash Deposits than Salary"/>
+            <column name="description" value=""/>
+            <column name="indicator_sub_type" value="MoreCashDepositXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Neft Imps Rtgs against salary"/>
+            <column name="description" value="Salary transactions with mode NEFT, IMPS or RTGS"/>
+            <column name="indicator_sub_type" value="NeftImpsRtgsAgainstSalaryXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Immediate big debit after Salary credit"/>
+            <column name="description"
+                    value="Withdrawal of big amount of money soon after salary credit may be due to forged salary entries."/>
+            <column name="indicator_sub_type" value="BigDebitAfterSalaryXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Irregular Salary Credits"/>
+            <column name="description" value="Salary Credits which are not in all months within a narrow date range."/>
+            <column name="indicator_sub_type" value="IrregularSalaryCreditXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Cash deposit higher than maximum salary"/>
+            <column name="description" value="Cash deposit transactions with amount greater than maximum salary"/>
+            <column name="indicator_sub_type" value="HighCashDepositXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Debit transactions to employer is seen"/>
+            <column name="description" value="Bank statements unlikely to have debit transactions to the employer."/>
+            <column name="indicator_sub_type" value="DebitTransactionToEmployer"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Irregular Transactions"/>
+            <column name="description" value="Total number of credit transactions is less than 20."/>
+            <column name="indicator_sub_type" value="IrregularCreditTransactions"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="NEFT/RTGS Deposits greater than twice the AMB"/>
+            <column name="description" value="NEFT/RTGS  greater than 2 times of Average Monthly Balance"/>
+            <column name="indicator_sub_type" value="NeftRtgsGreaterThanAMB"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Cash Deposits greater than twice the AMB"/>
+            <column name="description"
+                    value="All credits of Cash deposits greater than 2 times of Average Monthly Balance"/>
+            <column name="indicator_sub_type" value="CashDepositGreaterThanAMB"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Parties present in both debits and credits"/>
+            <column name="description" value="List of parties who are both Suppliers and Buyers."/>
+            <column name="indicator_sub_type" value="PartiesInCreditsAndDebits"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Parties present in both debits and credits"/>
+            <column name="description"
+                    value="Parties present in both debits and credits where credit amount is more than 10% of Average Monthly Balance"/>
+            <column name="indicator_sub_type" value="PartiesInCreditsAndDebitsWhenCreditGreaterThanAMB"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Irregular Transfers to Parties"/>
+            <column name="description"
+                    value="Transactions categorized as 'Transfer to ABC' which are not in all months within a narrow date range."/>
+            <column name="indicator_sub_type" value="IrregularTransferToPartiesXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Discontinuity in credits/ receivables"/>
+            <column name="description"
+                    value="For non-retail customers, identify if the delay between two successive credits is more than 15 days."/>
+            <column name="indicator_sub_type" value="DiscontinuityInCredits"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Rotation of Money"/>
+            <column name="description"
+                    value="Cyclic deposit of funds into an account and withdrawal/transfer of funds to another account after getting promotional interest or bonus from a promotional scheme of a bank."/>
+            <column name="indicator_sub_type" value="RotationOfMoney"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Neft Imps with cheque number"/>
+            <column name="description" value="NEFT or IMPS transactions with cheque number"/>
+            <column name="indicator_sub_type" value="NeftImpsWithChqNoXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Debit Interest not reflecting"/>
+            <column name="description" value="Interest debit transactions not reflecting in the account"/>
+            <column name="indicator_sub_type" value="DebitInterestNotReflecting"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Credit EOD Balances"/>
+            <column name="description" value="OD/CC account shows credit balance i.e, positive EOD balance"/>
+            <column name="indicator_sub_type" value="CreditEODBalanceXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Unusual Activity Of OD/CC Account"/>
+            <column name="description"
+                    value="For an OD/CC account, if the number of transactions exceeds or falls below the threshold count on any given day of the month."/>
+            <column name="indicator_sub_type" value="UnusualODCCActivity"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="No Monthly POS Transactions"/>
+            <column name="description" value="Months for which there no POS transactions"/>
+            <column name="indicator_sub_type" value="NoPosXnMonths"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Cash withdrawal on holidays"/>
+            <column name="description" value="Cash withdrawal on holidays"/>
+            <column name="indicator_sub_type" value="CashWithdrawalOnHolidayXns"/>
+            <column name="indicator_type" value="PossibleFraudIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Rounded salary transaction"/>
+            <column name="description" value="Salary transactions with rounded amount value"/>
+            <column name="indicator_sub_type" value="RoundedSalaryTransactionXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="fcu_indicators_description" schemaName="mas_datastore_perfios">
+            <column name="name" value="Suspicious gaming transactions"/>
+            <column name="description" value="Suspicious gaming transactions"/>
+            <column name="indicator_sub_type" value="SuspiciousGamingXns"/>
+            <column name="indicator_type" value="BehaviouralTransactionalIndicator"/>
+        </insert>
+
+        <insert tableName="master_identifiers" schemaName="mas_datastore_perfios">
+            <column name="identifier_type" value="TRANSACTION"/>
+            <column name="identifier_name" value="Loan Disbursement"/>
+            <column name="identification_value" value="Loan Disbursement"/>
+            <column name="debit_or_credit" value="CREDIT"/>
+            <column name="deletable" value="0"/>
+            <column name="uuid" valueComputed="NEWID()"/>
+            <column name="created_on" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="updated_on" valueDate="CURRENT_TIMESTAMP"/>
+        </insert>
+
+        <insert tableName="master_identifiers" schemaName="mas_datastore_perfios">
+            <column name="identifier_type" value="TRANSACTION"/>
+            <column name="identifier_name" value="EMI Tracing"/>
+            <column name="identification_value" value="EMI Tracing"/>
+            <column name="debit_or_credit" value="DEBIT"/>
+            <column name="deletable" value="0"/>
+            <column name="uuid" valueComputed="NEWID()"/>
+            <column name="created_on" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="updated_on" valueDate="CURRENT_TIMESTAMP"/>
+        </insert>
+
+        <insert tableName="master_rule" schemaName="mas_datastore_perfios">
+            <column name="transaction_flag" value="Credit Inter Bank"/>
+            <column name="deletable" value="0"/>
+            <column name="debit_or_credit" value="CREDIT"/>
+            <column name="uuid" valueComputed="NEWID()"/>
+            <column name="created_on" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="updated_on" valueDate="CURRENT_TIMESTAMP"/>
+        </insert>
+        <insert tableName="master_rule" schemaName="mas_datastore_perfios">
+            <column name="transaction_flag" value="Credit Inter Firm"/>
+            <column name="deletable" value="0"/>
+            <column name="debit_or_credit" value="CREDIT"/>
+            <column name="uuid" valueComputed="NEWID()"/>
+            <column name="created_on" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="updated_on" valueDate="CURRENT_TIMESTAMP"/>
+        </insert>
+        <insert tableName="master_rule" schemaName="mas_datastore_perfios">
+            <column name="transaction_flag" value="Credit Non-Business Transaction"/>
+            <column name="deletable" value="0"/>
+            <column name="debit_or_credit" value="CREDIT"/>
+            <column name="uuid" valueComputed="NEWID()"/>
+            <column name="created_on" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="updated_on" valueDate="CURRENT_TIMESTAMP"/>
+        </insert>
+
+        <insert tableName="master_rule" schemaName="mas_datastore_perfios">
+            <column name="transaction_flag" value="Debit Inter Bank"/>
+            <column name="deletable" value="0"/>
+            <column name="debit_or_credit" value="DEBIT"/>
+            <column name="uuid" valueComputed="NEWID()"/>
+            <column name="created_on" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="updated_on" valueDate="CURRENT_TIMESTAMP"/>
+        </insert>
+        <insert tableName="master_rule" schemaName="mas_datastore_perfios">
+            <column name="transaction_flag" value="Debit Inter Firm"/>
+            <column name="deletable" value="0"/>
+            <column name="debit_or_credit" value="DEBIT"/>
+            <column name="uuid" valueComputed="NEWID()"/>
+            <column name="created_on" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="updated_on" valueDate="CURRENT_TIMESTAMP"/>
+        </insert>
+        <insert tableName="master_rule" schemaName="mas_datastore_perfios">
+            <column name="transaction_flag" value="Debit Non-Business Transaction"/>
+            <column name="deletable" value="0"/>
+            <column name="debit_or_credit" value="DEBIT"/>
+            <column name="uuid" valueComputed="NEWID()"/>
+            <column name="created_on" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="updated_on" valueDate="CURRENT_TIMESTAMP"/>
+        </insert>
+    </changeSet>
+    <changeSet id="add-column-to-mas_requests" author="Vishwatej">
+        <addColumn tableName="mas_requests" schemaName="mas_datastore_perfios">
+            <column name="uniqueFirmId" type="VARCHAR(255)">
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="create-custom-total-fields-table" author="vishwatej">
+        <createTable tableName="custom_total_fields" schemaName="mas_datastore_perfios">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="custom_credit_loan_receipts" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="custom_debit_loan_receipts" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_credit_inter_bank" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_debit_inter_bank" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_credit_inter_firm" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_debit_inter_firm" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_credit_non_business_transaction" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_debit_non_business_transaction" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mas_fin_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

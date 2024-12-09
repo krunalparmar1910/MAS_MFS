@@ -1,0 +1,17 @@
+.error-page {
+  margin-top: 40px;
+  text-align: center;
+
+  .error-points {
+    display: flex;
+    justify-content: center;
+
+    .list-container {
+      list-style-type: disc;
+
+      .list-item {
+        display: list-item;
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+$row-gap: 20px;
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: $row-gap;
+}
+
+.login-header {
+  text-align: center;
+}
+
+.login-form {
+  row-gap: $row-gap;
+}
+
+.login-error {
+  color: red;
+}

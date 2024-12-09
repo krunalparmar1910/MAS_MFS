@@ -1,0 +1,41 @@
+# Testing with SQL Server 2022 since container images for 2008 are not available
+version: '3.8'
+services:
+  mas_sql_server_db: # SQL Server DB
+    image: mcr.microsoft.com/mssql/server:2022-CU11-ubuntu-20.04
+    restart: always
+    volumes:
+      - mas_sql_server_data:/var/lib/mssql/data
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "P2ssw0rd"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    networks:
+      - mas_network
+
+  mas_sql_server_db_init: # Container to run init scripts on sql-server, will shut down once run
+    image: mcr.microsoft.com/mssql/server:2022-CU11-ubuntu-20.04
+    network_mode: service:mas_sql_server_db
+    command: sh /home/scripts/mas_sql_server_db_init_startup.sh
+    environment:
+      MSSQL_SA_PASSWORD: "P2ssw0rd"
+      NEW_DB_ADMIN_USERNAME: "mas_db_admin"
+      NEW_DB_ADMIN_PASSWORD: "P2ssw0rd"
+      DATABASE_NAME: "mas"
+      GST_SCHEMA_NAME: "mas_gst"
+      ITR_SCHEMA_NAME: "mas_itr"
+      CIBIL_SCHEMA_NAME: "mas_cibil"
+      PERFIOS_SCHEMA_NAME: "perfios"
+    volumes:
+      - ../../../../../mas-docker/scripts:/home/scripts
+    depends_on:
+      - mas_sql_server_db
+
+volumes:
+  mas_sql_server_data:
+
+networks:
+  mas_network:
+    driver: bridge

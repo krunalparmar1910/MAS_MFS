@@ -1,0 +1,21 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 50px;
+}
+
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.upload-container-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.request-history-container {
+  display: flex;
+  flex-direction: column;
+}

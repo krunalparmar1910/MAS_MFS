@@ -1,0 +1,24 @@
+.ag-theme-quartz{
+  --ag-cell-horizontal-border: 1px solid #b8c2cc;
+  --ag-header-column-resize-handle-color: none;
+  --ag-row-border-color: #b8c2cc;
+  --ag-row-border-style: solid;
+  --ag-row-border-width: 1px;
+  .ag-header-cell{
+    background-color: #ebe9f1;
+    border: 1px solid #b8c2cc;
+    color: #6e6b7b;
+    font-family: "Helvetica";
+    font-size: 0.857rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    .ag-header-cell-label{
+      justify-content: center;
+    }
+  }
+}
+
+.ag-container{
+  height: 500px;
+}

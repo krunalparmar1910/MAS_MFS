@@ -1,0 +1,1164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+    <property name="bigdecimal.type" value="numeric(18,2)"/>
+
+    <changeSet id="1_adding_all_tables" author="archanranade">
+        <createTable tableName="sheet_type" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="sheet_type_name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="field_date_month_year" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_date_value" type="VARCHAR(255)">
+            </column>
+            <column name="from_date" type="DATE">
+            </column>
+            <column name="to_date" type="DATE">
+            </column>
+        </createTable>
+
+        <createTable tableName="client_order" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="uuid" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_on" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_on" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="client_order_id" type="VARCHAR(255)">
+            </column>
+            <column name="entity_id" type="VARCHAR(255)">
+            </column>
+            <column name="report_status" type="VARCHAR(255)">
+            </column>
+            <column name="created_by" type="VARCHAR(MAX)"/>
+            <column name="ip_address" type="VARCHAR(255)"/>
+        </createTable>
+
+        <createTable tableName="client_order_report_details" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="report_file_name" type="VARCHAR(255)">
+            </column>
+            <column name="report_company_name" type="VARCHAR(255)">
+            </column>
+            <column name="report_details_string" type="VARCHAR(MAX)">
+            </column>
+            <column name="report_pan" type="VARCHAR(255)">
+            </column>
+            <column name="report_gstn" type="VARCHAR(255)">
+            </column>
+            <column name="period_covered_from" type="DATE">
+            </column>
+            <column name="period_covered_to" type="DATE">
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_client_order_report_details_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="field_group" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_name" type="VARCHAR(255)">
+            </column>
+            <column name="sheet_type_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_field_group_sheet_type_id" references="sheet_type(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_field_group_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+        </createTable>
+
+        <!-- summary analysis, summary, gstr3b, tax and yearly tax -->
+        <createTable tableName="summary_analysis" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_summary_analysis_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_summary_analysis_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_summary_analysis_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="particulars" type="VARCHAR(255)">
+            </column>
+        </createTable>
+
+        <createTable tableName="summary_analysis_values" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_summary_analysis_values_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="summary_analysis_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_summary_analysis_values_summary_analysis_id" references="summary_analysis(id)" deleteCascade="true"/>
+            </column>
+            <column name="field_value" type="VARCHAR(255)">
+            </column>
+            <column name="field_value_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <createTable tableName="summary" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_summary_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_summary_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_summary_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="particulars" type="VARCHAR(255)">
+            </column>
+        </createTable>
+
+        <createTable tableName="summary_values" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_summary_values_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="summary_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_summary_values_summary_id" references="summary(id)" deleteCascade="true"/>
+            </column>
+            <column name="quarter" type="VARCHAR(255)">
+            </column>
+            <column name="field_value" type="VARCHAR(255)">
+            </column>
+            <column name="field_value_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <createTable tableName="gstr_3b" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_gstr_3b_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_gstr_3b_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_gstr_3b_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="particulars" type="VARCHAR(255)">
+            </column>
+        </createTable>
+
+        <createTable tableName="gstr_3b_values" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_gstr_3b_values_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="gstr_3b_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_gstr_3b_values_gstr_3b_id" references="gstr_3b(id)" deleteCascade="true"/>
+            </column>
+            <column name="field_value" type="VARCHAR(255)">
+            </column>
+            <column name="field_value_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <createTable tableName="tax" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_tax_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_tax_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_tax_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="particulars" type="VARCHAR(255)">
+            </column>
+        </createTable>
+
+        <createTable tableName="tax_values" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_tax_values_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="tax_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_tax_values_tax_id" references="tax(id)" deleteCascade="true"/>
+            </column>
+            <column name="field_value" type="VARCHAR(255)">
+            </column>
+            <column name="field_value_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <createTable tableName="yearly_tax" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_yearly_tax_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_yearly_tax_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_yearly_tax_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="particulars" type="VARCHAR(255)">
+            </column>
+        </createTable>
+
+        <createTable tableName="yearly_tax_values" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_yearly_tax_values_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="yearly_tax_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_yearly_tax_values_yearly_tax_id" references="yearly_tax(id)" deleteCascade="true"/>
+            </column>
+            <column name="field_value" type="VARCHAR(255)">
+            </column>
+            <column name="field_value_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <!-- customers analysis, suppliers analysis, hsn & chapter analysis, details of customers and suppliers -->
+        <createTable tableName="customers_analysis" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_customers_analysis_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_customers_analysis_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_customers_analysis_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="ranking" type="INT">
+            </column>
+            <column name="customer_gstin" type="VARCHAR(255)">
+            </column>
+            <column name="customer_name" type="VARCHAR(MAX)">
+            </column>
+            <column name="customer_type" type="VARCHAR(255)">
+            </column>
+            <column name="no_of_active_months" type="INT">
+            </column>
+            <column name="adjusted_revenue" type="VARCHAR(255)">
+            </column>
+            <column name="adjusted_revenue_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="percent_of_adjusted_revenue" type="VARCHAR(255)">
+            </column>
+            <column name="percent_of_adjusted_revenue_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="avg_invoice_value" type="VARCHAR(255)">
+            </column>
+            <column name="avg_invoice_value_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="monthly_avg_value" type="VARCHAR(255)">
+            </column>
+            <column name="monthly_avg_value_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="flag_for_category_change" type="VARCHAR(255)">
+            </column>
+            <column name="new_or_existing" type="VARCHAR(255)">
+            </column>
+        </createTable>
+
+        <createTable tableName="suppliers_analysis" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_suppliers_analysis_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_suppliers_analysis_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_suppliers_analysis_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="ranking" type="INT">
+            </column>
+            <column name="supplier_gstin" type="VARCHAR(255)">
+            </column>
+            <column name="supplier_name" type="VARCHAR(MAX)">
+            </column>
+            <column name="supplier_type" type="VARCHAR(255)">
+            </column>
+            <column name="no_of_active_months" type="INT">
+            </column>
+            <column name="adjusted_purchases_exp" type="VARCHAR(255)">
+            </column>
+            <column name="adjusted_purchases_exp_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="percent_of_adjusted_purchases_exp" type="VARCHAR(255)">
+            </column>
+            <column name="percent_of_adjusted_purchases_exp_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="avg_invoice_value" type="VARCHAR(255)">
+            </column>
+            <column name="avg_invoice_value_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="monthly_avg_value" type="VARCHAR(255)">
+            </column>
+            <column name="monthly_avg_value_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="flag_for_category_change" type="VARCHAR(255)">
+            </column>
+            <column name="new_or_existing" type="VARCHAR(255)">
+            </column>
+        </createTable>
+
+        <createTable tableName="hsn_chapter_analysis" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_hsn_chapter_analysis_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_hsn_chapter_analysis_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_hsn_chapter_analysis_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="ranking" type="INT">
+            </column>
+            <column name="product" type="VARCHAR(MAX)">
+            </column>
+            <column name="chapter" type="VARCHAR(MAX)">
+            </column>
+            <column name="description" type="VARCHAR(MAX)">
+            </column>
+            <column name="product_revenue" type="VARCHAR(255)">
+            </column>
+            <column name="product_revenue_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="percent_of_product_revenue" type="VARCHAR(255)">
+            </column>
+            <column name="percent_of_product_revenue_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="peak_months" type="VARCHAR(255)">
+            </column>
+            <column name="monthly_avg_product_revenue" type="VARCHAR(255)">
+            </column>
+            <column name="monthly_avg_product_revenue_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <createTable tableName="customers_suppliers_analysis_total" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_customers_suppliers_analysis_total_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_customers_suppliers_analysis_total_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_customers_suppliers_analysis_total_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="field_name" type="VARCHAR(255)">
+            </column>
+            <column name="total_value" type="VARCHAR(255)">
+            </column>
+            <column name="total_value_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="percent_of_total_value" type="VARCHAR(255)">
+            </column>
+            <column name="percent_of_total_value_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <createTable tableName="details_of_customers_and_suppliers" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_details_of_customers_and_suppliers_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_details_of_customers_and_suppliers_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_details_of_customers_and_suppliers_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="customer_gstn" type="VARCHAR(255)">
+            </column>
+            <column name="supplier_gstn" type="VARCHAR(255)">
+            </column>
+            <column name="legal_name" type="VARCHAR(MAX)">
+            </column>
+            <column name="trade_name" type="VARCHAR(MAX)">
+            </column>
+            <column name="constitution_of_business" type="VARCHAR(MAX)">
+            </column>
+            <column name="nature_of_business" type="VARCHAR(MAX)">
+            </column>
+            <column name="address" type="VARCHAR(MAX)">
+            </column>
+            <column name="place_of_business" type="VARCHAR(MAX)">
+            </column>
+            <column name="state" type="VARCHAR(255)">
+            </column>
+            <column name="tax_payer_type" type="VARCHAR(MAX)">
+            </column>
+            <column name="status" type="VARCHAR(255)">
+            </column>
+            <column name="date_of_registration" type="DATE">
+            </column>
+            <column name="date_of_cancellation" type="DATE">
+            </column>
+            <column name="filing_regularity" type="VARCHAR(MAX)">
+            </column>
+        </createTable>
+
+        <!-- customer wise, supplier wise, product wise and circular transactions -->
+        <createTable tableName="circular_transactions" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_circular_transactions_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_circular_transactions_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_circular_transactions_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="vendor_name" type="VARCHAR(MAX)">
+            </column>
+            <column name="vendor_gstn" type="VARCHAR(255)">
+            </column>
+            <column name="vendor_state" type="VARCHAR(255)">
+            </column>
+            <column name="adjusted_revenue_or_purchases_expenses" type="VARCHAR(255)">
+            </column>
+        </createTable>
+
+        <createTable tableName="circular_transactions_values" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_circular_transactions_values_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="circular_transactions_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_circular_transactions_values_circular_transactions_id" references="circular_transactions(id)" deleteCascade="true"/>
+            </column>
+            <column name="field_value" type="VARCHAR(255)">
+            </column>
+            <column name="field_value_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <createTable tableName="customer_wise" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_customer_wise_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_customer_wise_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_customer_wise_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="customer_name" type="VARCHAR(MAX)">
+            </column>
+            <column name="customer_gstin" type="VARCHAR(255)">
+            </column>
+        </createTable>
+
+        <createTable tableName="customer_wise_values" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_customer_wise_values_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="customer_wise_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_customer_wise_values_customer_wise_id" references="customer_wise(id)" deleteCascade="true"/>
+            </column>
+            <column name="field_value" type="VARCHAR(255)">
+            </column>
+            <column name="field_value_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <createTable tableName="product_wise" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_product_wise_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_product_wise_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_product_wise_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="product_hsn" type="VARCHAR(MAX)">
+            </column>
+            <column name="hsn_name" type="VARCHAR(MAX)">
+            </column>
+        </createTable>
+
+        <createTable tableName="product_wise_values" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_product_wise_values_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="product_wise_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_product_wise_values_product_wise_id" references="product_wise(id)" deleteCascade="true"/>
+            </column>
+            <column name="field_value" type="VARCHAR(255)">
+            </column>
+            <column name="field_value_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <createTable tableName="supplier_wise" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_supplier_wise_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_supplier_wise_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_supplier_wise_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="supplier_name" type="VARCHAR(MAX)">
+            </column>
+            <column name="supplier_gstin" type="VARCHAR(255)">
+            </column>
+        </createTable>
+
+        <createTable tableName="supplier_wise_values" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_supplier_wise_values_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="supplier_wise_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_supplier_wise_values_supplier_wise_id" references="supplier_wise(id)" deleteCascade="true"/>
+            </column>
+            <column name="field_value" type="VARCHAR(255)">
+            </column>
+            <column name="field_value_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <createTable tableName="customer_product_supplier_wise_total" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_customer_product_supplier_wise_total_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_customer_product_supplier_wise_total_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_customer_product_supplier_wise_total_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="field_name" type="VARCHAR(255)">
+            </column>
+            <column name="total_value" type="VARCHAR(255)">
+            </column>
+            <column name="total_value_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <!-- bifurcation, adjusted amounts, state wise and yearly return summary -->
+        <createTable tableName="bifurcation" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_bifurcation_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_bifurcation_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_bifurcation_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="particulars" type="VARCHAR(255)">
+            </column>
+        </createTable>
+
+        <createTable tableName="bifurcation_values" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_bifurcation_values_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="bifurcation_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_bifurcation_values_bifurcation_id" references="bifurcation(id)" deleteCascade="true"/>
+            </column>
+            <column name="amount" type="VARCHAR(255)">
+            </column>
+            <column name="amount_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="pct_share_adjusted_revenue" type="VARCHAR(255)">
+            </column>
+            <column name="pct_share_adjusted_revenue_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="pct_share_adjusted_purchases_expenses" type="VARCHAR(255)">
+            </column>
+            <column name="pct_share_adjusted_purchases_expenses_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <createTable tableName="adjusted_amounts" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_adjusted_amounts_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_adjusted_amounts_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_adjusted_amounts_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="particulars" type="VARCHAR(255)">
+            </column>
+        </createTable>
+
+        <createTable tableName="adjusted_amounts_values" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_adjusted_amounts_values_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="adjusted_amounts_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_adjusted_amounts_values_adjusted_amounts_id" references="adjusted_amounts(id)" deleteCascade="true"/>
+            </column>
+            <column name="amount" type="VARCHAR(255)">
+            </column>
+            <column name="amount_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="pct_share_adjusted_revenue" type="VARCHAR(255)">
+            </column>
+            <column name="pct_share_adjusted_revenue_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="pct_share_adjusted_purchases_expenses" type="VARCHAR(255)">
+            </column>
+            <column name="pct_share_adjusted_purchases_expenses_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <createTable tableName="state_wise" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_state_wise_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_state_wise_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_state_wise_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="particulars" type="VARCHAR(255)">
+            </column>
+            <column name="state_code" type="VARCHAR(255)">
+            </column>
+        </createTable>
+
+        <createTable tableName="state_wise_values" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_state_wise_values_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="state_wise_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_state_wise_values_state_wise_id" references="state_wise(id)" deleteCascade="true"/>
+            </column>
+            <column name="amount" type="VARCHAR(255)">
+            </column>
+            <column name="amount_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="pct_share_adjusted_revenue" type="VARCHAR(255)">
+            </column>
+            <column name="pct_share_adjusted_revenue_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="pct_share_adjusted_purchases_expenses" type="VARCHAR(255)">
+            </column>
+            <column name="pct_share_adjusted_purchases_expenses_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <createTable tableName="yearly_return_summary" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_yearly_return_summary_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_yearly_return_summary_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_yearly_return_summary_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="particulars" type="VARCHAR(255)">
+            </column>
+        </createTable>
+
+        <createTable tableName="yearly_return_summary_values" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_yearly_return_summary_values_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="yearly_return_summary_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_yearly_return_summary_values_yearly_return_summary_id" references="yearly_return_summary(id)" deleteCascade="true"/>
+            </column>
+            <column name="amount" type="VARCHAR(255)">
+            </column>
+            <column name="amount_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="percent_share_in_sales_during_period" type="VARCHAR(255)">
+            </column>
+            <column name="percent_share_in_sales_during_period_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="total_gst" type="VARCHAR(255)">
+            </column>
+            <column name="total_gst_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <!-- seasonality analysis -->
+        <createTable tableName="seasonality_analysis" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_seasonality_analysis_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_seasonality_analysis_year_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_seasonality_analysis_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="month_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_seasonality_analysis_month_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="particulars" type="VARCHAR(255)">
+            </column>
+            <column name="value" type="VARCHAR(255)">
+            </column>
+            <column name="value_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <!-- intra group -->
+        <createTable tableName="intra_group" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_intra_group_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_intra_group_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_intra_group_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="gstin" type="VARCHAR(255)">
+            </column>
+        </createTable>
+
+        <createTable tableName="intra_group_revenue_values" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="intra_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_intra_group_revenue_values_intra_group_id" references="intra_group(id)" deleteCascade="true"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_intra_group_revenue_values_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="gross_adjusted_revenue" type="VARCHAR(255)">
+            </column>
+            <column name="gross_adjusted_revenue_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="intra_group_revenue_value" type="VARCHAR(255)">
+            </column>
+            <column name="intra_group_revenue_value_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="percent_of_intra_group_revenue" type="VARCHAR(255)">
+            </column>
+            <column name="percent_of_intra_group_revenue_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="adjusted_revenue" type="VARCHAR(255)">
+            </column>
+            <column name="adjusted_revenue_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <createTable tableName="intra_group_purchases_expenses_values" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="intra_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_intra_group_purchases_expenses_values_intra_group_id" references="intra_group(id)" deleteCascade="true"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_intra_group_purchases_expenses_values_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="gross_adjusted_purchases_and_expenses" type="VARCHAR(255)">
+            </column>
+            <column name="gross_adjusted_purchases_and_expenses_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="intra_group_purchases_and_expenses_value" type="VARCHAR(255)">
+            </column>
+            <column name="intra_group_purchases_and_expenses_value_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="percent_of_intra_group_purchases_and_expenses" type="VARCHAR(255)">
+            </column>
+            <column name="percent_of_intra_group_purchases_and_expenses_numeric" type="${bigdecimal.type}">
+            </column>
+            <column name="adjusted_purchases_and_expenses" type="VARCHAR(255)">
+            </column>
+            <column name="adjusted_purchases_and_expenses_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <createTable tableName="intra_group_summary_of_group_transactions" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="intra_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_intra_group_summary_of_group_transactions_intra_group_id" references="intra_group(id)" deleteCascade="true"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_intra_group_summary_of_group_transactions_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="against_gstin" type="VARCHAR(255)">
+            </column>
+            <column name="revenue" type="VARCHAR(255)">
+            </column>
+            <column name="revenue_numeric" type="${bigdecimal.type}">
+            </column>
+        </createTable>
+
+        <!-- profile and filing table -->
+        <createTable tableName="profile_detail" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_profile_detail_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="true" foreignKeyName="fk_profile_detail_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_profile_detail_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="uuid" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_on" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" />
+            </column>
+            <column name="pan_number" type="VARCHAR(255)">
+            </column>
+            <column name="gst_number" type="VARCHAR(255)">
+            </column>
+            <column name="legal_name" type="VARCHAR(MAX)">
+            </column>
+            <column name="trade_name" type="VARCHAR(MAX)">
+            </column>
+            <column name="constitution_of_business" type="VARCHAR(MAX)">
+            </column>
+            <column name="nature_of_business" type="VARCHAR(MAX)">
+            </column>
+            <column name="nature_of_core_business_activity" type="VARCHAR(MAX)">
+            </column>
+            <column name="status" type="VARCHAR(MAX)">
+            </column>
+            <column name="tax_payer_type" type="VARCHAR(MAX)">
+            </column>
+            <column name="address" type="VARCHAR(MAX)">
+            </column>
+            <column name="place_of_business" type="VARCHAR(MAX)">
+            </column>
+            <column name="state" type="VARCHAR(MAX)">
+            </column>
+            <column name="state_jurisdiction" type="VARCHAR(255)">
+            </column>
+            <column name="state_jurisdiction_code" type="VARCHAR(255)">
+            </column>
+            <column name="center_jurisdiction" type="VARCHAR(255)">
+            </column>
+            <column name="center_jurisdiction_code" type="VARCHAR(255)">
+            </column>
+            <column name="latitude" type="VARCHAR(255)">
+            </column>
+            <column name="longitude" type="VARCHAR(255)">
+            </column>
+            <column name="date_of_registration" type="DATE">
+            </column>
+            <column name="date_of_cancellation" type="DATE">
+            </column>
+            <column name="last_updated_date" type="DATE">
+            </column>
+        </createTable>
+
+        <createTable tableName="filing_detail" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="field_group_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_filing_detail_field_group_id" references="field_group(id)"/>
+            </column>
+            <column name="field_date_month_year_id" type="BIGINT">
+                <constraints nullable="true" foreignKeyName="fk_filing_detail_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_filing_detail_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="financial_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_filing_detail_financial_year_id_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="tax_period_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_filing_detail_tax_period_id_field_date_month_year_id" references="field_date_month_year(id)"/>
+            </column>
+            <column name="return_type" type="VARCHAR(255)">
+            </column>
+            <column name="due_date" type="DATE">
+            </column>
+            <column name="date_of_filing" type="DATE">
+            </column>
+            <column name="delayed_days" type="INT">
+            </column>
+        </createTable>
+
+        <!-- Adding tables to store gst report UI numeric entry data -->
+        <createTable tableName="gst_report_manual_entry" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="client_order_ref_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_gst_report_manual_entry_client_order_id" references="client_order(id)" deleteCascade="true"/>
+            </column>
+            <column name="circular_or_others_customers_analysis" type="${bigdecimal.type}">
+            </column>
+            <column name="circular_or_others_suppliers_analysis" type="${bigdecimal.type}">
+            </column>
+            <column name="total_number_of_months_customers_analysis" type="INT">
+            </column>
+            <column name="total_number_of_months_suppliers_analysis" type="INT">
+            </column>
+        </createTable>
+
+        <createTable tableName="gst_report_manual_banking_entry" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="gst_report_manual_entry_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_gst_report_manual_banking_entry_gst_report_manual_entry_id" references="gst_report_manual_entry(id)" deleteCascade="true"/>
+            </column>
+            <column name="suppliers_analysis_numeric_entry_as_per_banking" type="${bigdecimal.type}">
+            </column>
+            <column name="customers_analysis_numeric_entry_as_per_banking" type="${bigdecimal.type}">
+            </column>
+            <column name="suppliers_analysis_numeric_entry_add_to_interfirm" type="BOOLEAN"/>
+            <column name="customers_analysis_numeric_entry_add_to_interfirm" type="BOOLEAN"/>
+        </createTable>
+
+        <!-- user info -->
+        <createTable tableName="user_info" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="uuid" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_on" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_on" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="username" type="VARCHAR(255)">
+            </column>
+            <column name="get_gst_report_request_history_JSON" type="VARCHAR(MAX)">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Inserting sheet types since they are expected to be fixed across all reports -->
+    <changeSet id="2_inserting_sheet_types" author="archanranade">
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Disclaimer"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Index"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Intra Group"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Summary Analysis"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Trend Charts"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Seasonality Analysis"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Customers Analysis"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Suppliers Analysis"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="HSN &amp; Chapter Analysis"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Circular Transactions"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Profile &amp; Filing Table"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Summary"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Bifurcation"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Adjusted Amounts"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="State Wise"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Customer Wise"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Supplier Wise"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Product Wise"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="GSTR 3B"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Details of Customers and Supp."/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Tax"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Yearly Return Summary"/>
+        </insert>
+        <insert tableName="sheet_type">
+            <column name="sheet_type_name" value="Yearly Tax"/>
+        </insert>
+    </changeSet>
+
+    <!-- Creating table for storing credentials to avoid server restart, adding default values -->
+    <changeSet id="3_user_credentials_table_with_default_data" author="archanranade">
+        <createTable tableName="api_info_credentials" schemaName="mas_datastore_gst">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="credential_type" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="api_key" type="VARCHAR(MAX)"/>
+            <column name="api_version" type="VARCHAR(MAX)"/>
+            <column name="base_api" type="VARCHAR(MAX)"/>
+            <column name="base_url" type="VARCHAR(MAX)"/>
+            <column name="webhook_url" type="VARCHAR(MAX)"/>
+        </createTable>
+
+        <!-- Corpository GST -->
+        <insert tableName="api_info_credentials" schemaName="mas_datastore_gst">
+            <column name="credential_type" value="Corpository GST"/>
+            <column name="base_api" value="/clientapi/api/v2/credavenue"/>
+            <column name="base_url" value="https://gst-client-api.corpository.com/"/>
+        </insert>
+
+        <!-- Perfios -->
+        <insert tableName="api_info_credentials" schemaName="mas_datastore_gst">
+            <column name="credential_type" value="Perfios"/>
+            <column name="base_url" value="https://demo.perfios.com"/>
+        </insert>
+
+        <!-- Karza ITR -->
+        <insert tableName="api_info_credentials" schemaName="mas_datastore_gst">
+            <column name="credential_type" value="Karza ITR"/>
+            <column name="api_key" value="igzxow5qTgRW9T4e"/>
+            <column name="api_version" value="1.0.2"/>
+            <column name="base_url" value="https://api.karza.in/itr/uat/v1/"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

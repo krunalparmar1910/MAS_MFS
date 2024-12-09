@@ -1,0 +1,164 @@
+/* EMI Master Page Styles */
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.form-container,
+.table-container {
+  margin: 20px 0;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  background: #ebe9f1;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #b8c2cc;
+}
+
+form div {
+  flex: 1 1 30%;
+}
+
+form label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+form input,
+form select {
+  width: 30%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  padding: 10px 16px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+form button[type="button"] {
+  background-color: #7367F0;
+}
+
+form button[type="button"]:hover {
+  background-color: #4e46a3;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+table th {
+  color: white;
+}
+
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.action-buttons button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  font-size: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.action-buttons button.edit {
+  background-color: #007bff;
+  color: white;
+}
+
+.action-buttons button.edit:hover {
+  background-color: #0056b3;
+}
+
+.action-buttons button.delete {
+  background-color: #f44336;
+  color: white;
+}
+
+.action-buttons button.delete:hover {
+  background-color: #d32f2f;
+}
+
+.table-container {
+  width: 50%; /* Half-width table */
+  margin: 0 auto; /* Center the table within the wrapper */
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+
+  th {
+    background-color: #F5F5FA;
+    color: #333;
+    font-weight: bold;
+    text-align: center; /* Center-align header content */
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  td {
+    border: 1px solid #ddd;
+    padding: 6px;
+    text-align: center; /* Center-align table cell content */
+  }
+
+  tr:nth-child(even) {
+    background-color: #FAFAFC;
+  }
+
+  tr:hover {
+    background-color: #F1F1F8;
+  }
+
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}

@@ -1,0 +1,126 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/mas
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+  datasource:
+    url: jdbc:sqlserver://172.16.11.100:1433;databaseName=mas_datastore_dev;trustServerCertificate=true;
+    username: mas_datastore_db_admin
+    password: P2ssw0rd
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    jpa:
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.SQLServerDialect
+        database-platform: org.hibernate.dialect.SQLServerDialect
+      hibernate:
+        ddl-auto: none
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      enabled: true
+      location: ${java.io.tmpdir}
+  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 1000
+        order_inserts: true
+#      show_sql: true
+#      hibernate.format_sql: true
+  liquibase:
+    enabled: true
+    changeLog: classpath:db/changelog/db.changelog-master.yaml
+  profiles:
+    active: dev
+
+logging:
+  file:
+    name: log/mas-server.log
+    max-size: 50MB
+  level:
+    com:
+      pf:
+        mas: DEBUG
+        karza: DEBUG
+        perfios: DEBUG
+        common: DEBUG
+
+server:
+  port: 9090
+  ssl:
+    key-store: classpath:keystore/mas_datastore_key.p12
+    key-store-type: PKCS12
+    key-store-password: changeit
+    key-alias: mas_mfs
+    enabled: true
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+keycloak:
+  server-uri: http://localhost:8080
+  realm: mas
+
+app:
+  cors:
+    allowed-origins: http://localhost:3000
+jwt:
+  auth:
+    converter:
+      resource-id: mas-datastore-auth
+      principle-attribute: preferred_username
+
+auth-service:
+  keycloak:
+    api:
+      keycloakBaseUrl: http://localhost:8080
+      realm: mas
+
+corpository:
+  base-url: ${CORPOSITORY_BASE_URL}
+  base-api: /clientapi/api/v2/credavenue
+
+perfios:
+  # https://demo.perfios.com
+  base-url: ${PERFIOS_BASE_URL}
+  webhook-url: ${PERFIOS_WEBHOOK_URL}
+  cron:
+    reportExpiry: '0 0 7 * * *'
+  report:
+    expiryDays: 15
+  webhookRetry:
+    maxAttempts: 20
+    delayInMilli: 60000
+  getReportRetry:
+    maxAttempts: 20
+    delayInMilli: 60000
+
+itr:
+  # https://api.karza.in/itr/uat/v1/
+  # https://api.karza.in/itr/prod/v1/
+  base_url: ${KARZA_ITR_BASE_URL}
+  # "1.0.2"
+  api_version: ${KARZA_API_VERSION}
+  karza_key: ${KARZA_ITR_KEY}
+  encryption:
+    password: 6d0534f397d453a3
+    salt: 7f156d4d5a865857
+
+default-username: admin

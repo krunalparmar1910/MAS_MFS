@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: /db/changelog/0.0.1/db.changelog-schema.xml
+  - include:
+      file: /db/changelog/0.0.1/db.changelog-itr-schema.xml
+  - include:
+      file: db/changelog/0.0.1/db.changelog-perfios.xml
+  - include:
+      file: /db/changelog/0.0.1/db.changelog-mas-cibil-schema.xml

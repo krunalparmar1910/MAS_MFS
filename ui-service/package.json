@@ -1,0 +1,200 @@
+{
+  "name": "mas-mfs-ui",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@ag-grid-community/client-side-row-model": "^31.3.2",
+    "@ag-grid-community/infinite-row-model": "^31.3.2",
+    "@ag-grid-community/react": "^31.3.2",
+    "@ag-grid-community/styles": "^31.3.2",
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@mui/icons-material": "^5.15.15",
+    "@mui/material": "^5.16.7",
+    "@mui/x-data-grid": "^7.3.0",
+    "@mui/x-date-pickers": "^7.2.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.67",
+    "@types/react": "^18.2.42",
+    "@types/react-dom": "^18.2.17",
+    "@types/uuid": "^9.0.8",
+    "ag-grid-community": "^31.3.2",
+    "axios": "^1.6.2",
+    "date-fns": "^3.3.1",
+    "dayjs": "^1.11.10",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-react": "^7.37.2",
+    "i18next": "^23.10.1",
+    "i18next-browser-languagedetector": "^7.2.0",
+    "notistack": "^3.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-i18next": "^14.1.0",
+    "react-router-dom": "^6.20.1",
+    "react-scripts": "5.0.1",
+    "redux-saga": "^1.2.3",
+    "sass": "^1.72.0",
+    "typescript": "^4.9.5",
+    "uuid": "^9.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "cross-env GENERATE_SOURCEMAP=false CI=false react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "plugins": [
+      "react"
+    ],
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended"
+    ],
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "paths": [
+            "src"
+          ],
+          "extensions": [
+            ".ts",
+            ".tsx",
+            ".jest.tsx",
+            ".d.ts",
+            ".js",
+            ".jsx"
+          ]
+        }
+      },
+      "react": {
+        "version": "detect"
+      }
+    },
+    "rules": {
+      "no-console": "warn",
+      "quotes": [
+        "error",
+        "double"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ],
+      "curly": [
+        "error",
+        "all"
+      ],
+      "import/no-unresolved": "error",
+      "max-len": [
+        "error",
+        {
+          "code": 120
+        }
+      ],
+      "indent": [
+        "error",
+        2,
+        {
+          "SwitchCase": 1
+        }
+      ],
+      "no-var": "error",
+      "prefer-const": "error",
+      "no-trailing-spaces": "error",
+      "no-multiple-empty-lines": [
+        "error",
+        {
+          "max": 1,
+          "maxEOF": 1
+        }
+      ],
+      "key-spacing": [
+        "error",
+        {
+          "beforeColon": false,
+          "afterColon": true
+        }
+      ],
+      "keyword-spacing": [
+        "error"
+      ],
+      "brace-style": [
+        "error"
+      ],
+      "no-multi-spaces": [
+        "error"
+      ],
+      "object-curly-spacing": [
+        "error",
+        "never"
+      ],
+      "array-bracket-spacing": [
+        "error",
+        "never"
+      ],
+      "react/jsx-indent": [
+        "error",
+        2
+      ],
+      "eqeqeq": "error",
+      "no-extra-semi": "error",
+      "no-func-assign": "error",
+      "no-unreachable": "error",
+      "no-empty-function": [
+        "off"
+      ],
+      "no-unused-vars": "off",
+      "no-unused-expressions": [
+        "off",
+        {
+          "allowShortCircuit": false,
+          "allowTernary": false,
+          "allowTaggedTemplates": false
+        }
+      ],
+      "comma-spacing": [
+        "off",
+        {
+          "before": false,
+          "after": true
+        }
+      ],
+      "comma-dangle": [
+        "error",
+        {
+          "arrays": "always-multiline",
+          "objects": "always-multiline",
+          "imports": "always-multiline",
+          "exports": "always-multiline",
+          "functions": "always-multiline"
+        }
+      ],
+      "import/no-duplicates": "error"
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/material-ui": "^0.21.17",
+    "cross-env": "^7.0.3"
+  }
+}

@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  mas_postgres_keycloak_db: # PostgreSQL Keycloak DB server
+    container_name: mas-postgres-keycloak-server
+    image: postgres:15.4
+    restart: always
+    volumes:
+      - mas_pg_data_keycloak:/var/lib/postgresql/data1
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5438:5432"
+    healthcheck:
+      test: "exit 0"
+    networks:
+      - mas_network
+
+
+  mas_keycloak_app: # Keycloak server
+    container_name: mas-keycloak-server
+    image: quay.io/keycloak/keycloak:22.0.3
+    command: [ "start-dev", "--import-realm" ]
+    restart: unless-stopped
+    volumes:
+      - ./imports:/opt/keycloak/data/import
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: mas_postgres_keycloak_db
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_PASSWORD: root
+      KC_DB_USERNAME: postgres
+      KC_DB_SCHEMA: public
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_IMPORT: /opt/keycloak/data/import/mas-datastore-realm.json -Dkeycloak.profile.feature.upload_scripts=enabled
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mas_postgres_keycloak_db
+    networks:
+      - mas_network
+
+
+volumes:
+  mas_pg_data_keycloak:
+
+networks:
+  mas_network:
+    driver: bridge

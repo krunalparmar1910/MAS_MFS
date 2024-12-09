@@ -1,0 +1,108 @@
+.table-wrapper {
+  margin: 20px auto; /* Center align the container */
+  text-align: center; /* Center align the header text */
+
+  h2 {
+    font-size: 18px; /* Slightly larger than normal text */
+    color: #333; /* Dark text color */
+    margin-bottom: 10px; /* Space between header and table */
+    font-weight: bold; /* Make the header stand out */
+    text-transform: uppercase; /* Optional: Makes text uppercase */
+  }
+
+  .table-container {
+    width: 50%; /* Half-width table */
+    margin: 0 auto; /* Center the table within the wrapper */
+    border-collapse: collapse;
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+
+    th {
+      background-color: #F5F5FA;
+      color: #333;
+      font-weight: bold;
+      text-align: center;
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    td {
+      border: 1px solid #ddd;
+      padding: 6px;
+      text-align: left;
+    }
+
+    tr:nth-child(even) {
+      background-color: #FAFAFC;
+    }
+
+    tr:hover {
+      background-color: #F1F1F8;
+    }
+
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+  }
+}
+.borrowing-details-header {
+  text-align: center; /* Center-align the header */
+  margin: 30px 0; /* Add space above and below the header */
+
+  h2 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+  }
+}
+
+.table-container1 {
+  width: 50%; 
+  margin: 0 auto; 
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+
+  th {
+    background-color: #F5F5FA;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  td {
+    border: 1px solid #ddd;
+    padding: 6px;
+    text-align: left;
+  }
+
+  tr:nth-child(even) {
+    background-color: #FAFAFC;
+  }
+
+  tr:hover {
+    background-color: #F1F1F8;
+  }
+
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.table-container.two-column-table th,
+.table-container.two-column-table td {
+  width: auto; 
+}
+
+.table-container.two-column-table th:first-child,
+.table-container.two-column-table td:first-child {
+  white-space: nowrap; 
+}
+
+
+.table-container.two-column-table th:last-child,
+.table-container.two-column-table td:last-child {
+  width: 100%; 
+}
+
